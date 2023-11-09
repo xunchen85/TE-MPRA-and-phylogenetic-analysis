@@ -136,3 +136,7 @@ grep '[0-9A-Za-z]' *_[123]_counts.tsv | sed 's/_counts.tsv:/\t/' >Combined.ratio
 
 ############### step 4: ran the MPRAnalyze.R script with the these converted count tables as the inputs to compute the MPRA activity (alpha values)
 
+
+############### step 5: run the Prepare_summary_tables.R to prepare a summary table containing the LTR instance information and a table containing the sequence and MPRA activity
+# MPRA activity (alpha values) was also normalized by the negative controls using the MAD.
+# results were organized into these csv tables "Summary_Table1_2022_8_9.csv" and Summary_Table2_2022_8_9.csv"
