@@ -14,4 +14,4 @@ All Python, R, and shell scripts will be finalized and uploaded asap...
    
    •	2) subdivide all instances (copies) into clusters per subfamily;
 
-   •	3) determine phyletic groups among clusters per subfamily group based on the top selected rooted tree and liftOver rate;
+   •	3) determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate;
