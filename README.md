@@ -1,5 +1,6 @@
 # TE-MPRA-and-phylogenetic-analysis
-The scripts here are used for the study of "Cryptic endogenous retrovirus subfamilies in the primate lineage". The inputs are available upon request (chen.xun.3r@kyoto-u.ac.jp) and the final version will be available on Zenodo.
+
+The scripts here are used for the study of "Cryptic endogenous retrovirus subfamilies in the primate lineage". We could not upload the input files due to the file size limitation. However, the inputs are available upon request (chen.xun.3r@kyoto-u.ac.jp) and the final version will be submitted to Zenodo database at DOI:10.5281/zenodo.10016500.
 
 
 All Python, R, and shell scripts will be finalized and uploaded asap...
