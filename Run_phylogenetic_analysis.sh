@@ -109,9 +109,9 @@ iqtree2 -s hg19_MER11ABC_v1.mafft.prank.best.fas \
 # we did the same for other subfamily groups.
 
 #### 3.2 divergence rate calculation between cluster consensus sequences from each subfamily group (contributed by Dr. Zicong Zhang)
-cd input_tree_consensus/
+cd input_trees_consensus/
 
-for SEQ in `ls *.fa`
+for SEQ in `ls *i.v2.fa`
 do
   NAME=`basename -s .fa ${SEQ}`
   # multiple sequence alignment
@@ -125,5 +125,56 @@ do
 	-n ${NAME}
 done
 
-#### 3.3 liftOver analysis
+# we also computed the divergence rates between cluster consensus sequences we identified and the ones in the DFAM databases.
+# we also computed the divergence rates between human and macaque MER11 cluster consensus sequences.
 
+cd ../
+
+#### 3.3 liftOver analysis
+# lift over human TEs to other species, e.g., macaque genome; the chain files, such as hg19ToMacFas5.over.chain was downloaded from UCSC.
+# hg19 versus other species could be found here (https://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/).
+# macaque versus hg19 could be found here (https://hgdownload.soe.ucsc.edu/goldenPath/macFas5/liftOver/).
+
+species1="hg19"
+species1_u="Hg19"
+species2="Macfas5"
+species2_l="macfas5"
+
+bnMapper.py -k \
+	-t 0.5 \
+	input/hg19_rmsk_TE_0bp.bed \
+	input_chain_files/${species1}To${species2}.over.chain.pkl >hg19_rmsk_TE_0bp.${species1}To${species2}.bed
+
+# format conversion
+awk '{print$0":"$1":"$2":"$3}' hg19_rmsk_TE_0bp.${species1}To${species2}.bed >hg19_rmsk_TE_0bp.${species1}To${species2}.bed2
+
+# liftover reciprocally against human
+bnMapper.py -k \
+	-t 0.5 \
+	hg19_rmsk_TE_0bp.${species1}To${species2}.bed2 \
+	chain_files/${species2_l}To${species1_u}.over.chain >hg19_rmsk_TE_0bp.${species1}To${species2}.back.bed
+
+# intersect
+bedtools intersect \
+	-wao \
+	-a input/hg19_rmsk_TE_0bp.rename2.bed \
+	-b hg19_rmsk_TE_0bp.${species1}To${species2}.back.bed >hg19_rmsk_TE_0bp.${species1}To${species2}.back.intersect.bed
+
+# summarize the results
+python Summarize_liftoverIntersect_by_TEFamily.py \
+	-l input/hg19_rmsk_TE.bed.TEfamilyCounts \
+	-i hg19_rmsk_TE_0bp.${species1}To${species2}.back.intersect.bed >hg19_rmsk_TE_0bp.hg19ToMacFas5.back.intersect.out
+
+python Summarize_liftoverIntersect_by_TEFamily_Group.py \
+	-l hg19_rmsk_TE.bed.TEfamilyCounts \
+	-i hg19_rmsk_TE_0bp.${species1}To${$species2}.back.intersect.bed \
+	-n TEwide_instance.list_2023_8_29.hg19 \
+	-g TEwide_group.list_final_2023_8_29.hg19 >hg19_rmsk_TE_0bp.${species1}To${species2}.back.intersect.group.out
+
+# lastly we selected the best root based on the liftOver rate per cluster and then determine the phyletic groups based on the internal branch lengths and divergence rates between adjacent consensus sequences:
+
+################# step 4: phyletic groups determination
+# We determined the phyletic groups based on the top-selected rooted tree manually based on these rules:
+#  1) We first examined the internal branch lengths of the tree and grouped adjacent clusters based on the top branch lengths (bootstrap values) manually. 
+#  2) We then examined the heatmap of divergence rates to look at extraordinary values between very clusters. 
+#  3) We then kept phyletic groups with the top branch lengths and extraordinary divergence rates betwee ajacent consensus sequences in the tree, which indicate the separation of these clusters from others
