@@ -206,10 +206,13 @@ liftover.summary.plot.sub.macaque$Label2 = ifelse(liftover.summary.plot.sub.maca
 liftover.summary.plot.sub.macaque$family = ifelse(!is.na(liftover.summary.plot.sub.macaque$Label2),liftover.summary.plot.sub.macaque$TE_family2_2,NA)
 liftover.summary.plot.sub.macaque$count.final = ifelse(liftover.summary.plot.sub.macaque$count.200.x>=3000,3000,liftover.summary.plot.sub.macaque$count.200.x)
 
+color_family = c("ERVL"="#F8766D","ERV1"="#00BFC4","ERVK"="#C77CFF","ERVL-MaLR"="#7CAE00")
+
 p1 = ggplot(liftover.summary.plot.sub.macaque, aes(x=mean.age, y=perC.200bp*100)) +
   geom_point(aes(size=(count.final)),shape=21,fill="#3182bd",color="black")+
   geom_hline(yintercept=60, linetype="dashed", color = "grey", size=1)+
   geom_text_repel(aes(label = Label2,color = TE_family2_2),max.overlaps = 100)+
+  scale_color_manual(values=color_family)+
   ylab("% human instances shared with macaque")+
   xlab("TE evolutionary age (Myrs)")+
   theme(
