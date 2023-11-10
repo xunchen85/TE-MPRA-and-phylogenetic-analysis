@@ -25,7 +25,10 @@ hg19.div.sum$TE_family2 = hg19.div.sum$TE_family
 hg19.div.sum = data.frame(cSplit(hg19.div.sum,"TE_family2",sep=":"))
 
 # load the liftover intersect results
-liftover.summary = read.delim("input/hg19_rmsk_TE_0bp.liftover.summary_2023_4_10",header=F,sep="")
+liftover.summary = read.delim("input/TEwide_liftover.subfamily.summary_2023_8_29",header=F,sep="")
+
+head(liftover.summary)
+
 colnames(liftover.summary) = c("species","TE_family","total.count","intersected.count","intersected.count.200bp")
 liftover.summary = merge(liftover.summary,hg19.div.sum[,c("TE_family","count.200")],by="TE_family",all.x=T)
 liftover.summary$perC.200bp = liftover.summary$intersected.count.200bp/liftover.summary$count.200
@@ -77,7 +80,7 @@ primateSpecific.families.200bp = as.character(liftover.summary.plot.sub[liftover
                                                                           liftover.summary.plot.sub$perC.200bp<=0.2 & 
                                                                           liftover.summary.plot.sub$TE_family %in% primateSpecific.families.hg38.200,]$TE_family)
 
-#write.table(primateSpecific.families,file="primateSpecific.families_2023_4_10.txt",sep="",row.names = FALSE,quote = FALSE,col.names = FALSE)
+write.table(primateSpecific.families,file="primateSpecific.families_2023_4_10.txt",sep="",row.names = FALSE,quote = FALSE,col.names = FALSE)
 
 liftover.summary.plot.sub.candidate = liftover.summary.plot.sub[liftover.summary.plot.sub$TE_family %in% primateSpecific.families,]
 liftover.summary.plot.sub$is_kept = ifelse(liftover.summary.plot.sub$TE_family %in% primateSpecific.families,"kept","not")
@@ -192,3 +195,44 @@ pdf("Figure_1A.pdf",    # create PNG for the heat map
     pointsize = 10)        # smaller font size
 grid.draw(g2)
 dev.off()   
+
+
+
+#######
+liftover.summary.plot.sub.macaque = liftover.summary.plot.sub[liftover.summary.plot.sub$species == "hg19ToMacFas5" & 
+                                                                liftover.summary.plot.sub$is_kept == "kept",]
+liftover.summary.plot.sub.macaque$TE_family2_1 = as.character(liftover.summary.plot.sub.macaque$TE_family2_1)
+liftover.summary.plot.sub.macaque$Label2 = ifelse(liftover.summary.plot.sub.macaque$perC.200<=0.6,as.character(liftover.summary.plot.sub.macaque$TE_family2_1),NA)
+liftover.summary.plot.sub.macaque$family = ifelse(!is.na(liftover.summary.plot.sub.macaque$Label2),liftover.summary.plot.sub.macaque$TE_family2_2,NA)
+liftover.summary.plot.sub.macaque$count.final = ifelse(liftover.summary.plot.sub.macaque$count.200.x>=3000,3000,liftover.summary.plot.sub.macaque$count.200.x)
+
+p1 = ggplot(liftover.summary.plot.sub.macaque, aes(x=mean.age, y=perC.200bp*100)) +
+  geom_point(aes(size=(count.final)),shape=21,fill="#3182bd",color="black")+
+  geom_hline(yintercept=60, linetype="dashed", color = "grey", size=1)+
+  geom_text_repel(aes(label = Label2,color = TE_family2_2),max.overlaps = 100)+
+  ylab("% human instances shared with macaque")+
+  xlab("TE evolutionary age (Myrs)")+
+  theme(
+    plot.title = element_text(hjust = 0.5, size = rel(1.2)),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(), 
+    axis.line = element_line(colour = "black"),
+    axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+    axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+    axis.text=element_text(colour="black",size=rel(1.2),angle = 0),
+    axis.text.x=element_text(colour="black",hjust=0.5,vjust=0.5,angle = 0),
+    axis.title=element_text(colour="black",size=rel(1.2)),
+    legend.key = element_rect(colour = "transparent", fill = "white"),
+    legend.position="right",
+    #legend.position = "none",
+    legend.background = element_blank(),
+    legend.text=element_text(size=rel(.9)))
+pdf("Figure_S1.pdf",    # create PNG for the heat map        
+    width = 8,        # 5 x 300 pixels
+    height = 6,
+    pointsize = 10 )        # smaller font size
+grid.draw(p1)
+dev.off()
+
+
