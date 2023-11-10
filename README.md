@@ -5,9 +5,9 @@ The scripts here are used for the study of "Cryptic endogenous retrovirus subfam
 
 All Python, R, and shell scripts will be finalized and uploaded asap...
 
-1. Run_MPRAflow.sh script was used to compute the MPRA activity using MPRAflow, MPRAnalyze, and several R scripts.
+1. Run_MPRA_analysis.sh script was used to compute the MPRA activity using MPRAflow, MPRAnalyze, and several R scripts.
 
-2. Run_phylogenetic_analysis.sh script was used to perform the TE phylogenetic analysis based on multiple sequence alignment. It contains the full steps on how to determine the TE phyletic groups:
+2. Run_phylogenetic_analysis.sh script was used to perform the TE phylogenetic analysis based on multiple sequence alignment. This script contains the full steps how to determine the TE phyletic groups:
 
 
    •	1) obtain the subfamily groups;
