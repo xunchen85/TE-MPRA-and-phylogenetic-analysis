@@ -100,7 +100,7 @@ for (TEfamily in TEfamilies){
   Input_peak_plot_sum = merge(Input_peak_plot_sum,Input_peak_plot_sum_sub,by="TEconsensus",all.x=T)
   colnames(Input_peak_plot_sum) = c("TEconsensus","accessibleTEs.total","accessibleTEs.candidate")
   Input_peak_plot_sum = Input_peak_plot_sum[order(-Input_peak_plot_sum$accessibleTEs.candidate),]
-  write.csv(Input_peak_plot_sum,file = paste(File,".summary.csv",sep=""))
+  # write.csv(Input_peak_plot_sum,file = paste(File,".summary.csv",sep=""))
   Input_peak_plot_sum_sub = Input_peak_plot_sum_sub[!is.na(Input_peak_plot_sum_sub$TEconsensus),]
   Input_peak_plot_sum_sub = Input_peak_plot_sum_sub[1,]
   Input_peak_plot_sum_sub$Len = Consensus_len[Consensus_len$TEfamily == Input_peak_plot_sum_sub$TEconsensus,]$Len
@@ -176,59 +176,9 @@ for (TEfamily in TEfamilies){
   Input_peak_convert_plot$rpm_aggregated = apply(Input_peak_convert_plot[,5:ncol(Input_peak_convert_plot)],1,sum,na.rm=T)
   Input_peak_convert_plot$rpm_mean = apply(Input_peak_convert_plot[,5:ncol(Input_peak_convert_plot)],1,mean,na.rm=T)
   colnames(Input_peak_convert_plot) = gsub("-|:",".",colnames(Input_peak_convert_plot))
-  
+  Input_peak_convert_plot$group = factor(Input_peak_convert_plot$group,levels=levels(sampleInfo$group))
   
   ###### step 3: plot the aggregated plot
-  glist = list()
-  Order = 1
-  Input_peak_convert_plot$group = factor(Input_peak_convert_plot$group,levels=levels(sampleInfo$group))
-  p1 = ggplot(Input_peak_convert_plot, aes(x=posi,y=rpm_mean,group=group))+
-    geom_line(aes(color = group),position="identity") + 
-    ylab("RPM value (mean)")+
-    xlab(paste(Input_peak_plot_sum_sub$TEconsensus,Input_peak_plot_sum_sub$Len,"(bp)"))+
-    #scale_color_manual(values = color_stages_tmp)+
-    #coord_cartesian(xlim=c(min(dis_plot_summary_final$Consensus_posi),max(dis_plot_summary_final$Consensus_posi)))+
-    scale_x_continuous(breaks = seq(0,Input_peak_plot_sum_sub$Len, by = 250))+
-    ggtitle(paste(TEfamily," (n=",Input_peak_plot_sum_sub$n,")",sep=""))+
-    expand_limits(x = 0, y = 0)+
-    theme(plot.title = element_text(hjust = 0.5),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_blank(), 
-          legend.key = element_rect(fill = NA),
-          axis.line = element_line(colour = "black"),
-          axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.title=element_text(colour="black",size=rel(1)),
-          legend.title=element_blank(),
-          legend.position="right",
-          legend.background = element_blank(),
-          legend.text=element_text(size=rel(1)))
-  glist[[Order]] <-ggplotGrob(p1)
-  Order = Order + 1
-  
-  p1 = ggplot(Input_peak_convert_plot, aes(x=posi,y=rpm_aggregated,group=group))+
-    geom_line(aes(color = group),position="identity") + 
-    ylab("Aggregated RPM value")+
-    xlab(paste(Input_peak_plot_sum_sub$TEconsensus,Input_peak_plot_sum_sub$Len,"(bp)"))+
-    scale_x_continuous(breaks = seq(0,Input_peak_plot_sum_sub$Len, by = 250))+
-    ggtitle(paste(TEfamily," (n=",Input_peak_plot_sum_sub$n,")",sep=""))+
-    expand_limits(x = 0, y = 0)+
-    theme(plot.title = element_text(hjust = 0.5),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.background = element_blank(), 
-          legend.key = element_rect(fill = NA),
-          axis.line = element_line(colour = "black"),
-          axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-          axis.title=element_text(colour="black",size=rel(1)),
-          legend.title=element_blank(),
-          legend.position="right",
-          legend.background = element_blank(),
-          legend.text=element_text(size=rel(1)))
-  glist[[Order]] <-ggplotGrob(p1)
-  Order = Order + 1
   ## barplot
   p1 = ggplot(Input_peak_convert_plot, aes(x=posi,y=rpm_aggregated,group=group))+
     geom_bar(aes(fill = group),alpha = 0.5,stat="identity",position="identity") + 
@@ -250,13 +200,11 @@ for (TEfamily in TEfamilies){
           legend.position="right",
           legend.background = element_blank(),
           legend.text=element_text(size=rel(1)))
-  glist[[Order]] <-ggplotGrob(p1)
-  Order = Order + 1
   pdf(paste("Figure_3A-",File,"aggregated.plot.pdf",sep="."),    # create PNG for the heat map
       width = 6,        # 5 x 300 pixels
-      height = 9,
+      height = 4,
       pointsize = 12)        # smaller font size
-  do.call("grid.arrange",c(glist,ncol=1))
+  grid.draw(p1)
   dev.off()    
   
   #write.csv(Input_peak_convert_plot,file = paste(File,".aggregated.plot.csv",sep=""))
