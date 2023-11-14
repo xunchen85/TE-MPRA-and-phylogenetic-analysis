@@ -13,19 +13,19 @@ All input files are kept under the "inputs/" folder (Zenodo database at DOI: 10.
 ### phylogenetic analysis
 2) Run_phylogenetic_analysis.sh: it contains the command lines and parameters to perform the TE phylogenetic analysis based on multiple sequence alignments. This script contains the full steps on how to determine the TE phyletic groups:
 
-   2.1 obtain the subfamily groups;
+#### 2.1 obtain the subfamily groups;
    
-   2.2 subdivide all instances (copies) into clusters per subfamily;
+#### 2.2 subdivide all instances (copies) into clusters per subfamily;
 
-   2.3 determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate:
+#### 2.3 determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate:
    
-      2.3.1 Select the best root based on statistical tests of every trees and liftOver rate;
+   2.3.1 Select the best root based on statistical tests of every trees and liftOver rate;
    
-      2.3.2 Examine the internal branch lengths of the tree and group adjacent clusters based on the top branch lengths (bootstrap values) manually. 
+   2.3.2 Examine the internal branch lengths of the tree and group adjacent clusters based on the top branch lengths (bootstrap values) manually. 
    
-      2.3.3 Examine the heatmap of divergence rates to look at extreme values between every adjacent clusters to validate the phyletic groups. 
+   2.3.3 Examine the heatmap of divergence rates to look at extreme values between every adjacent clusters to validate the phyletic groups. 
    
-      2.3.4 Keep the phyletic groups after we confirmed that the clusters from a phyletic group were evolutionary close to each other.
+   2.3.4 Keep the phyletic groups after we confirmed that the clusters from a phyletic group were evolutionary close to each other.
 
 ## Python and perl scripts
 These python and perl scripts are used in the shell scripts to prepare the inputs for the following R scripts
