@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 library(gplots)
 library(ggplot2)
 library(grid)
@@ -16,11 +24,7 @@ ztran <- function(x, na.rm = TRUE) {
   x
 }
 
-### path
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
-
 ### file names
-
 TEfamily = "MER11A"                               ### family name
 File = "hg19_MER11A_1bp.bed.group"                ### combined .group matrix file
 infoFile="metadata.sampleList"            ### no header, but the first two columns should be sampleID followed by group

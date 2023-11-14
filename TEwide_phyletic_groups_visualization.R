@@ -1,4 +1,11 @@
-#library(phyloseq)
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 library(treeio)
 library(ggtree)
 library(ggplot2)
@@ -16,10 +23,6 @@ library(Biostrings)
 library(randomcoloR)
 library(ggbeeswarm)
 library(ggpubr)
-
-#Date = "2023_9_7"
-#########################
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
 
 ######################### step 1 achieve the list of tree files
 

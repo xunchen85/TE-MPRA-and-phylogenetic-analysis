@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 import sys
 import getopt
 import re

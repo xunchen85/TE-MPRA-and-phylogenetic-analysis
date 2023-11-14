@@ -1,8 +1,10 @@
-##########
-## Authors: Xun Chen
-## Email: xunchen85@gmail.com or xchen@outlook.com
-## Date: 2023/10/17
-##########
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
 
 ########## step 1: subfamily groups
 # Subfamily consensus sequences could were downloaded from the repbase or DFAM databases. 
@@ -171,10 +173,13 @@ python Summarize_liftoverIntersect_by_TEFamily_Group.py \
 	-n TEwide_instance.list_2023_8_29.hg19 \
 	-g TEwide_group.list_final_2023_8_29.hg19 >hg19_rmsk_TE_0bp.${species1}To${species2}.back.intersect.group.out
 
-# lastly we selected the best root based on the liftOver rate per cluster and then determine the phyletic groups based on the internal branch lengths and divergence rates between adjacent consensus sequences:
+# we then combine the liftOver results into a summary table at the subfamily and a table at the phyletic group level separate.
+cat hg19_rmsk_TE_0bp.hg19To*.back.intersect.out >hg19_rmsk_TE_0bp.liftover.summary_2023_4_10
 
-################# step 4: phyletic groups determination
-# We determined the phyletic groups based on the top-selected rooted tree manually based on these rules:
-#  1) We first examined the internal branch lengths of the tree and grouped adjacent clusters based on the top branch lengths (bootstrap values) manually. 
-#  2) We then examined the heatmap of divergence rates to look at extraordinary values between very clusters. 
-#  3) We then kept phyletic groups with the top branch lengths and extraordinary divergence rates betwee ajacent consensus sequences in the tree, which indicate the separation of these clusters from others
+
+#### 3.4 phyletic groups determination
+
+# We determined the phyletic groups based on the top-selected rooted tree. These are the rules:
+#	1) we first examined the internal branch lengths of the tree and grouped adjacent clusters based on the top branch lengths (bootstrap values) manually. 
+#	2) We also examined the heatmap of divergence rates to look at extreme values between every adjacent clusters to validate the phyletic groups. 
+#	3) We kept the phyletic groups after we confirmed that the clusters from a phyletic group were evolutionary close to each other.

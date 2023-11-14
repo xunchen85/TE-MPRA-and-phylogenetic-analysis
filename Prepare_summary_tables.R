@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 library(splitstackshape)
 library(dplyr)
 library(ggplot2)
@@ -6,11 +14,9 @@ library(grid)
 library(gridExtra)
 library(ggridges)
 
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
 options(scipen=999)
 
 ########################### Table 1: instance info
-###########################
 div.hg19 = read.delim("input/hg19_rmsk_TE_1bp.div.bed.gz",header=F,sep="")
 div.hg19$Instance_coordinate = paste("hg19:",div.hg19$V1,":",div.hg19$V2-1,"-",div.hg19$V3,sep="")
 div.macFas5_20140131 = read.delim("input/macFas5_rmsk_TE_1bp.div.bed.gz",header=F,sep="")

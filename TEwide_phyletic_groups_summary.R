@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 library(ggplot2)
 library(dplyr)
 library(grid)
@@ -13,10 +21,6 @@ library(ggbeeswarm)
 library(ggpubr)
 
 Date = "2023_9_11"
-
-##### set path
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
-
 ##### step 1: subfamily and functional group
 phyletic_group_table = read.csv("input/TEwide_group.list_2023_9_4.functional_group_edited.csv")
 phyletic_group_table$uniqueID = paste(phyletic_group_table$tree,phyletic_group_table$family.cluster,phyletic_group_table$subfamily2_1)

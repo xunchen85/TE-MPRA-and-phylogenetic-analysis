@@ -1,3 +1,10 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
 
 library(treeio)
 library(ggtree)
@@ -16,8 +23,6 @@ library(Biostrings)
 library(randomcoloR)
 
 #########################
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
-
 # 1.1 tree files
 Families = list.files("input_trees/")
 Families = Families[grepl("contree$",Families)]

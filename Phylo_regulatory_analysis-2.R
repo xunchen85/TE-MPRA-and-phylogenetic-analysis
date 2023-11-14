@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 ##### load pacakges
 library(splitstackshape)
 library(gplots)
@@ -10,10 +18,6 @@ library(pheatmap)
 library(randomcoloR)
 library(RColorBrewer)
 library("rGREAT")
-
-#Date = "2023_9_7"
-############################ Enviroment
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
 
 ######################### read annotation
 Summary_Table1 = read.csv("input/Summary_Table1_2022_8_9.csv")
@@ -540,7 +544,7 @@ pdf(paste("Figure_2B",".pdf",sep=""),    # create PNG for the heat map
     pointsize = 10 )        # smaller font size
 do.call("grid.arrange",c(glist,ncol=2))
 dev.off()
-pdf(paste("Figure_3E",".pdf",sep=""),    # create PNG for the heat map        
+pdf(paste("Figure_3E_S5G",".pdf",sep=""),    # create PNG for the heat map        
     height = 8,        # 5 x 300 pixels
     width = Width_frame,
     pointsize = 10 )        # smaller font size

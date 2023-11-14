@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2023/10/17
+###
+#######################
+
 library(splitstackshape)
 library(dplyr)
 library(ggplot2)
@@ -9,9 +17,7 @@ library(ggpmisc)
 library(ggbeeswarm)
 library(ggpubr)
 
-setwd(dir="/Users/xchen/OneDrive - Kyoto University/Projects_Bourque/Project_Neurogenesis/Final_edited_version_2022_11_25/Final_scripts/")
 options(scipen=999)
-
 Date = "2023_4_21"
 ########################### Table 1: instance info
 Summary_Table1 = read.csv(file = "input/Summary_Table1_2022_8_9.csv")
@@ -33,10 +39,10 @@ Summary_Table1.sum2$Group = ifelse(Summary_Table1.sum2$Group == "Tested NA","F1"
 Summary_Table1.sum2$Group = ifelse(Summary_Table1.sum2$Group == "NA Tested","F2",Summary_Table1.sum2$Group)
 Summary_Table1.sum2$Group = ifelse(Summary_Table1.sum2$Group == "Tested Tested","F1 & F2",Summary_Table1.sum2$Group)
 Summary_Table1.sum2$Group = factor(Summary_Table1.sum2$Group,levels = rev(c("F1 & F2", "F1","F2","Not tested")))
-write.csv(Summary_Table1.sum2,file = "Summary_Table1_2022_8_9.supplementary.csv")
+#write.csv(Summary_Table1.sum2,file = "Summary_Table1_2022_8_9.supplementary.csv")
 
 ######################### plots
-Summary_Table1.sum2 = read.csv("Summary_Table1_2022_8_9.supplementary.csv")
+#Summary_Table1.sum2 = read.csv("Summary_Table1_2022_8_9.supplementary.csv")
 colCombination = c("F1 & F2"="#225ea8","F1"="#7fcdbb","F2"="#edf8b1","Not tested"="#f0f0f0")
 
 # filter by length

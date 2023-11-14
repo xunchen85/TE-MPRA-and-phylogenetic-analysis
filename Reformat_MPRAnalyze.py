@@ -1,3 +1,11 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2021/3/16
+###
+#######################
+
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
@@ -6,10 +14,6 @@ import re
 import sys
 import getopt
 import numpy as np
-
-### Author: Xun Chen  ###
-### Date:   2021/3/16  ###
-### Contact:    xunchen85@gmail.com ###
 
 ### define variables
 

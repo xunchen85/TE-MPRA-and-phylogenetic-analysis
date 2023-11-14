@@ -1,10 +1,10 @@
 #######################
-### Author: Xun Chen
+### Author: Xun Chen, Ph.D.
 ### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
 ### Date: 2023/10/17
 ###
 #######################
-
 
 ####################### MPRAflow analysis
 # optimize the "nf_ori_map_barcodes.py" included in MPRAflow to keep reads fully matched to the designed insert sequences

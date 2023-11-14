@@ -1,10 +1,16 @@
+#######################
+### Author: Xun Chen, Ph.D.
+### Email: xunchen85@gmail.com or xchen@outlook.com
+### ORCID: https://orcid.org/0000-0003-0327-1888
+### Date: 2021/1/24
+###
+#######################
+
 import sys
 import getopt
 import re
 
-##### Author: xunchen85@gmail.com
 ##### This script is used to extract sequences in a given position and length of one TE subfamily for MPRA experiment
-##### Date: 2021/1/24
 
 try:
     opts,args = getopt.getopt(sys.argv[1:], '-h:-i:-S:-E:-b:-n:-c:-o:', ['help', 'iseqFile=', 'Start=', 'End=', 'bedFile=', 'nameSubfamily=','consensusSubfamily=','outFile='])
