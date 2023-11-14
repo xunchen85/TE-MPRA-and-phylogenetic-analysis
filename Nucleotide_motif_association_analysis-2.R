@@ -842,7 +842,7 @@ for(Family in Families[grepl("_combined_F",Families)]){
               if (Family == "MER11_combined_F2" & Type == "motif"){
                 Height = 16
               }
-              pdf(paste("Figure_6B-",Family,"_",Species,"_",Group,"_",Type,"_motif_",Date,"-upset4.pdf",sep=""),
+              pdf(paste("Figure_5B-",Family,"_",Species,"_",Group,"_",Type,"_motif_",Date,"-upset4.pdf",sep=""),
                   width = Width,        # 5 x 300 pixels
                   height = 12,
                   pointsize = 10)        # smaller font size
