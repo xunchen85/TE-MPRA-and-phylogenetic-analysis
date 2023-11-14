@@ -4,7 +4,7 @@
 Scripts included here are used for the study of "Cryptic endogenous retrovirus subfamilies in the primate lineage". We could not upload the input files due to the file size limitation. However, the inputs are available upon request (chen.xun.3r@kyoto-u.ac.jp) and the final version will be submitted to Zenodo database at DOI:10.5281/zenodo.10016500.
 
 ## Input data
-All input files are kept under the "inputs/" folder (Zenodo database at DOI: 10.5281/zenodo.10016500).
+All input files will be kept under the "inputs/" folder (Zenodo database at DOI: 10.5281/zenodo.10016500).
 
 ## Shell scripts
 ### MPRA analysis
