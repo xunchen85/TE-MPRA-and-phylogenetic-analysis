@@ -30,7 +30,7 @@ Summary_Table2 = read.csv("input/Summary_Table2_2023_1_5.subfamilyInfo.csv")
 Annotation = data.frame(read.delim("input/MPRA_combined_final_2021_12_28.tsv",sep="",header=T))
 
 ##### load the retrieved inserts by association analysis
-inserts = read.delim("input/TE_MPRA_i1_assoc_basic_opt_identical5_filtered_coords_to_barcodes.pickle.out",header=F,sep="")
+inserts = read.delim("input/TE_MPRA_i1_assoc_basic_opt_identical5_filtered_coords_to_barcodes.pickle.out.gz",header=F,sep="")
 colnames(inserts)[1:2] = c("unique_MPRA","bc_asso")
 Annotation = merge(Annotation,inserts[,c("unique_MPRA","bc_asso")],by="unique_MPRA",all.x=T)
 Annotation$bc_asso_group = ifelse(!is.na(Annotation$bc_asso) & Annotation$bc_asso>=10,"bc_asso>=10","bc_asso<10")
@@ -137,40 +137,40 @@ for (Cell in c("iPSC","NPC")){
   Annotation_plot_label = Annotation_plot_sum[!duplicated(Annotation_plot_sum$ID),]
   Annotation_plot_label$ID = factor(Annotation_plot_label$ID,levels=list_IDs)
   
-  p = ggplot(data=Annotation_plot_sum, aes(x=ID, y= freq,group=Group_bc)) +
-    geom_col(aes(fill=Group_bc))+
-    scale_fill_brewer(palette = "GnBu")+
-    ylim(0,1.2)+
-    geom_text(data = Annotation_plot_label,
-              aes(x = ID, group=1, y = 1 + 0.08,
-                  label = n.y),
-              color="black", position=position_dodge(.9), angle=75,hjust=.5)+
-    ylab("Proportion of inserts")+
-    xlab("Frame")+
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(),
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,hjust = 0.95,angle = 90),
-      axis.title=element_text(colour="black",size=rel(1)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      legend.position="right",
-      #legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
+  # p = ggplot(data=Annotation_plot_sum, aes(x=ID, y= freq,group=Group_bc)) +
+  #   geom_col(aes(fill=Group_bc))+
+  #   scale_fill_brewer(palette = "GnBu")+
+  #   ylim(0,1.2)+
+  #   geom_text(data = Annotation_plot_label,
+  #             aes(x = ID, group=1, y = 1 + 0.08,
+  #                 label = n.y),
+  #             color="black", position=position_dodge(.9), angle=75,hjust=.5)+
+  #   ylab("Proportion of inserts")+
+  #   xlab("Frame")+
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(),
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,hjust = 0.95,angle = 90),
+  #     axis.title=element_text(colour="black",size=rel(1)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     legend.position="right",
+  #     #legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # 
+  # pdf(paste("Step5-1-",Cell,"_",Date,".pdf",sep=""),     
+  #     width = 12,        # 5 x 300 pixels
+  #     height = 5,
+  #     pointsize = 10)
+  # grid.draw(p)
+  # dev.off()
   
-  pdf(paste("Step5-1-",Cell,"_",Date,".pdf",sep=""),     
-      width = 12,        # 5 x 300 pixels
-      height = 5,
-      pointsize = 10)
-  grid.draw(p)
-  dev.off()
-
   ########################## violin plot
   shape_species = c("Consensus" = 8,"hg19"=17,"macFas5"=15,"panTro4"=16,"Control"=16)
   color_species = c("Consensus" = "#6a3d9a","hg19"="#e31a1c","macFas5"="#1f78b4","panTro4"="#33a02c","Control"="grey44")
@@ -191,42 +191,41 @@ for (Cell in c("iPSC","NPC")){
   Annotation_plot2$ID2 = ifelse(Annotation_plot2$Group == "Instance" | Annotation_plot2$Group=="Consensus",paste(Annotation_plot2$Family,Annotation_plot2$Frame,sep="-"),NA)
   Annotation_plot2$ID2 = ifelse(Annotation_plot2$Group=="Negative" | Annotation_plot2$Group=="Positive",Annotation_plot2$Group,Annotation_plot2$ID2)
   
-  head(Annotation_plot2)
-  p = ggplot(Annotation_plot2, aes(x = ID2, y = log2(as.numeric(as.character(ratio.ave))),fill=Species)) +
-    geom_boxplot(position = position_dodge(width = 0.9)) +
-    #geom_quasirandom(aes(fill = Species,color= Species, alpha=Species,shape=Species),dodge.width = 0.9, varwidth = TRUE)+
-    #geom_point(aes(fill = Species,color= Species, alpha=Species,shape=Species),position = position_jitterdodge(seed = 1, dodge.width = 0.9))+
-    #geom_jitter(aes(fill = Species,color= Species, alpha=Species,shape=Species),width = 0.3,na.rm=TRUE)+
-    scale_fill_manual(values=color_species)+
-    scale_color_manual(values=color_species)+
-    scale_shape_manual(values=shape_species)+
-    scale_alpha_manual(values=alpha_species)+
-    xlab("Family")+
-    ylab("log2 ratio")+
-    ggtitle(Cell)+
-    #geom_hline(yintercept=c(0,1), linetype="dashed", size=1)+
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,hjust=0.95,angle = 90),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      legend.position="right",
-      #legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  pdf(paste("Step5-2-",Cell,"_",Date,".pdf",sep=""),     
-      width = 12,        # 5 x 300 pixels
-      height = 5,
-      pointsize = 10)
-  grid.draw(p)
-  dev.off()
+  # p = ggplot(Annotation_plot2, aes(x = ID2, y = log2(as.numeric(as.character(ratio.ave))),fill=Species)) +
+  #   geom_boxplot(position = position_dodge(width = 0.9)) +
+  #   #geom_quasirandom(aes(fill = Species,color= Species, alpha=Species,shape=Species),dodge.width = 0.9, varwidth = TRUE)+
+  #   #geom_point(aes(fill = Species,color= Species, alpha=Species,shape=Species),position = position_jitterdodge(seed = 1, dodge.width = 0.9))+
+  #   #geom_jitter(aes(fill = Species,color= Species, alpha=Species,shape=Species),width = 0.3,na.rm=TRUE)+
+  #   scale_fill_manual(values=color_species)+
+  #   scale_color_manual(values=color_species)+
+  #   scale_shape_manual(values=shape_species)+
+  #   scale_alpha_manual(values=alpha_species)+
+  #   xlab("Family")+
+  #   ylab("log2 ratio")+
+  #   ggtitle(Cell)+
+  #   #geom_hline(yintercept=c(0,1), linetype="dashed", size=1)+
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,hjust=0.95,angle = 90),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     legend.position="right",
+  #     #legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # pdf(paste("Step5-2-",Cell,"_",Date,".pdf",sep=""),     
+  #     width = 12,        # 5 x 300 pixels
+  #     height = 5,
+  #     pointsize = 10)
+  # grid.draw(p)
+  # dev.off()
   
   p = ggplot(Annotation_plot2, aes(x = ID2, y = log2(as.numeric(as.character(ratio.ave))))) +
     geom_violin(aes(),color = "black",fill=NA,scale="width") + 
@@ -256,13 +255,13 @@ for (Cell in c("iPSC","NPC")){
       legend.background = element_blank(),
       legend.text=element_text(size=rel(1)))
   
-  pdf(paste("Step5-3-",Cell,"_",Date,".pdf",sep=""),     
+  pdf(paste("Figure_S5F-",Cell,"_",Date,".pdf",sep=""),     
       width = 9,        # 5 x 300 pixels
       height = 5,
       pointsize = 10)
   grid.draw(p)
   dev.off()
-
+  
   Summary_Table2$Species2 = ifelse(Summary_Table2$Group == "Consensus","Consensus",Summary_Table2$Species)
   Summary_Table2$Species2 = ifelse(Summary_Table2$Group %in% c("Positive","Negative"),"Control",Summary_Table2$Species2)
   Summary_Table2$Family2 = paste(Summary_Table2$Family,Summary_Table2$Frame,sep="_")
@@ -324,7 +323,7 @@ for (Cell in c("iPSC","NPC")){
         legend.background = element_blank(),
         legend.text=element_text(size=rel(1)))
   }
-  pdf(paste("Step5-3-",Cell,"_",Date,".pdf",sep=""),     
+  pdf(paste("Figure_S5F-",Cell,"_",Date,".pdf",sep=""),     
       width = 9,        # 5 x 300 pixels
       height = 5,
       pointsize = 10)
@@ -333,206 +332,206 @@ for (Cell in c("iPSC","NPC")){
   
   ##### DNA
   my.formula = y~x
-  qlist = list()
-  i = 1
-  p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(dna_count.rep1)),as.numeric(as.character(dna_count.rep2)))) +
-    geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
-    scale_color_manual(values=color_Group)+
-    scale_alpha_manual(values=alpha_Group)+
-    xlab("rep1 (normalized DNA count)")+
-    ylab("rep2 (normalized DNA count)")+
-    geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-    stat_poly_eq(formula = my.formula,
-                 eq.with.lhs = "italic(hat(y))~`=`~",
-                 p.digits = 3,
-                 aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-                 parse = TRUE,size = 4.5,) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      #legend.position="right",
-      legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  qlist[[i]] <- ggplotGrob(p1)
-  i = i +1
-  p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(dna_count.rep1)),as.numeric(as.character(dna_count.rep3)))) +
-    geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
-    scale_color_manual(values=color_Group)+
-    scale_alpha_manual(values=alpha_Group)+
-    xlab("rep1 (normalized DNA count)")+
-    ylab("rep3 (normalized DNA count)")+
-    geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-    stat_poly_eq(formula = my.formula,
-                 eq.with.lhs = "italic(hat(y))~`=`~",
-                 p.digits = 3,
-                 aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-                 parse = TRUE,size = 4.5,) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      #legend.position="right",
-      legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  qlist[[i]] <- ggplotGrob(p1)
-  i = i +1
-  p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(dna_count.rep2)),as.numeric(as.character(dna_count.rep3)))) +
-    geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
-    scale_color_manual(values=color_Group)+
-    scale_alpha_manual(values=alpha_Group)+
-    xlab("rep2 (normalized DNA count)")+
-    ylab("rep3 (normalized DNA count)")+
-    geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-    stat_poly_eq(formula = my.formula,
-                 eq.with.lhs = "italic(hat(y))~`=`~",
-                 p.digits = 3,
-                 aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-                 parse = TRUE,size = 4.5,) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      #legend.position="right",
-      legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  qlist[[i]] <- ggplotGrob(p1)
-  i = i +1
-  pdf(paste("Step5-4-",Cell,"_",Date,".dna_count.pdf",sep=""),     
-      width = 12,        # 5 x 300 pixels
-      height = 4,
-      pointsize = 10)
-  do.call("grid.arrange",c(qlist,ncol=3))
-  dev.off()
-  
-  
-  ##### rna count
-  qlist = list()
-  i = 1
-  p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(rna_count.rep1)),as.numeric(as.character(rna_count.rep2)))) +
-    geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
-    scale_color_manual(values=color_Group)+
-    scale_alpha_manual(values=alpha_Group)+
-    xlab("rep1 (normalized RNA count)")+
-    ylab("rep2 (normalized RNA count)")+
-    geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-    stat_poly_eq(formula = my.formula,
-                 eq.with.lhs = "italic(hat(y))~`=`~",
-                 p.digits = 3,
-                 aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-                 parse = TRUE,size = 4.5,) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      #legend.position="right",
-      legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  qlist[[i]] <- ggplotGrob(p1)
-  i = i +1
-  p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(rna_count.rep1)),as.numeric(as.character(rna_count.rep3)))) +
-    geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
-    scale_color_manual(values=color_Group)+
-    scale_alpha_manual(values=alpha_Group)+
-    xlab("rep1 (normalized RNA count)")+
-    ylab("rep3 (normalized RNA count)")+
-    geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-    stat_poly_eq(formula = my.formula,
-                 eq.with.lhs = "italic(hat(y))~`=`~",
-                 p.digits = 3,
-                 aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-                 parse = TRUE,size = 4.5,) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      #legend.position="right",
-      legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  qlist[[i]] <- ggplotGrob(p1)
-  i = i +1
-  p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(ratio.rep2)),as.numeric(as.character(ratio.rep3)))) +
-    geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
-    scale_color_manual(values=color_Group)+
-    scale_alpha_manual(values=alpha_Group)+
-    xlab("rep2 (normalized RNA count)")+
-    ylab("rep3 (normalized RNA count)")+
-    geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-    stat_poly_eq(formula = my.formula,
-                 eq.with.lhs = "italic(hat(y))~`=`~",
-                 p.digits = 3,
-                 aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-                 parse = TRUE,size = 4.5,) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = rel(1)),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.background = element_blank(), 
-      axis.line = element_line(colour = "black"),
-      axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-      axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-      axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-      axis.title=element_text(colour="black",size=rel(1.4)),
-      legend.key = element_rect(colour = "transparent", fill = "white"),
-      #legend.position="right",
-      legend.position = "none",
-      legend.background = element_blank(),
-      legend.text=element_text(size=rel(1)))
-  qlist[[i]] <- ggplotGrob(p1)
-  i = i +1
-  pdf(paste("Step5-5-",Cell,"_",Date,".RNA_count.pdf",sep=""),     
-      width = 12,        # 5 x 300 pixels
-      height = 4,
-      pointsize = 10)
-  do.call("grid.arrange",c(qlist,ncol=3))
-  dev.off()
-  
+  # qlist = list()
+  # i = 1
+  # p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(dna_count.rep1)),as.numeric(as.character(dna_count.rep2)))) +
+  #   geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
+  #   scale_color_manual(values=color_Group)+
+  #   scale_alpha_manual(values=alpha_Group)+
+  #   xlab("rep1 (normalized DNA count)")+
+  #   ylab("rep2 (normalized DNA count)")+
+  #   geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
+  #   stat_poly_eq(formula = my.formula,
+  #                eq.with.lhs = "italic(hat(y))~`=`~",
+  #                p.digits = 3,
+  #                aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
+  #                parse = TRUE,size = 4.5,) +
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     #legend.position="right",
+  #     legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # qlist[[i]] <- ggplotGrob(p1)
+  # i = i +1
+  # p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(dna_count.rep1)),as.numeric(as.character(dna_count.rep3)))) +
+  #   geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
+  #   scale_color_manual(values=color_Group)+
+  #   scale_alpha_manual(values=alpha_Group)+
+  #   xlab("rep1 (normalized DNA count)")+
+  #   ylab("rep3 (normalized DNA count)")+
+  #   geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
+  #   stat_poly_eq(formula = my.formula,
+  #                eq.with.lhs = "italic(hat(y))~`=`~",
+  #                p.digits = 3,
+  #                aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
+  #                parse = TRUE,size = 4.5,) +
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     #legend.position="right",
+  #     legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # qlist[[i]] <- ggplotGrob(p1)
+  # i = i +1
+  # p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(dna_count.rep2)),as.numeric(as.character(dna_count.rep3)))) +
+  #   geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
+  #   scale_color_manual(values=color_Group)+
+  #   scale_alpha_manual(values=alpha_Group)+
+  #   xlab("rep2 (normalized DNA count)")+
+  #   ylab("rep3 (normalized DNA count)")+
+  #   geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
+  #   stat_poly_eq(formula = my.formula,
+  #                eq.with.lhs = "italic(hat(y))~`=`~",
+  #                p.digits = 3,
+  #                aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
+  #                parse = TRUE,size = 4.5,) +
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     #legend.position="right",
+  #     legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # qlist[[i]] <- ggplotGrob(p1)
+  # i = i +1
+  # pdf(paste("Step5-4-",Cell,"_",Date,".dna_count.pdf",sep=""),     
+  #     width = 12,        # 5 x 300 pixels
+  #     height = 4,
+  #     pointsize = 10)
+  # do.call("grid.arrange",c(qlist,ncol=3))
+  # dev.off()
+  # 
+  # 
+  # ##### rna count
+  # qlist = list()
+  # i = 1
+  # p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(rna_count.rep1)),as.numeric(as.character(rna_count.rep2)))) +
+  #   geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
+  #   scale_color_manual(values=color_Group)+
+  #   scale_alpha_manual(values=alpha_Group)+
+  #   xlab("rep1 (normalized RNA count)")+
+  #   ylab("rep2 (normalized RNA count)")+
+  #   geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
+  #   stat_poly_eq(formula = my.formula,
+  #                eq.with.lhs = "italic(hat(y))~`=`~",
+  #                p.digits = 3,
+  #                aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
+  #                parse = TRUE,size = 4.5,) +
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     #legend.position="right",
+  #     legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # qlist[[i]] <- ggplotGrob(p1)
+  # i = i +1
+  # p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(rna_count.rep1)),as.numeric(as.character(rna_count.rep3)))) +
+  #   geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
+  #   scale_color_manual(values=color_Group)+
+  #   scale_alpha_manual(values=alpha_Group)+
+  #   xlab("rep1 (normalized RNA count)")+
+  #   ylab("rep3 (normalized RNA count)")+
+  #   geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
+  #   stat_poly_eq(formula = my.formula,
+  #                eq.with.lhs = "italic(hat(y))~`=`~",
+  #                p.digits = 3,
+  #                aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
+  #                parse = TRUE,size = 4.5,) +
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     #legend.position="right",
+  #     legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # qlist[[i]] <- ggplotGrob(p1)
+  # i = i +1
+  # p1 = ggplot(Annotation_plot2, aes(as.numeric(as.character(ratio.rep2)),as.numeric(as.character(ratio.rep3)))) +
+  #   geom_point(aes(color=Group,alpha=Group),size=2,shape=19) + 
+  #   scale_color_manual(values=color_Group)+
+  #   scale_alpha_manual(values=alpha_Group)+
+  #   xlab("rep2 (normalized RNA count)")+
+  #   ylab("rep3 (normalized RNA count)")+
+  #   geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
+  #   stat_poly_eq(formula = my.formula,
+  #                eq.with.lhs = "italic(hat(y))~`=`~",
+  #                p.digits = 3,
+  #                aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
+  #                parse = TRUE,size = 4.5,) +
+  #   theme(
+  #     plot.title = element_text(hjust = 0.5, size = rel(1)),
+  #     panel.grid.major = element_blank(),
+  #     panel.grid.minor = element_blank(),
+  #     panel.background = element_blank(), 
+  #     axis.line = element_line(colour = "black"),
+  #     axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+  #     axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
+  #     axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
+  #     axis.title=element_text(colour="black",size=rel(1.4)),
+  #     legend.key = element_rect(colour = "transparent", fill = "white"),
+  #     #legend.position="right",
+  #     legend.position = "none",
+  #     legend.background = element_blank(),
+  #     legend.text=element_text(size=rel(1)))
+  # qlist[[i]] <- ggplotGrob(p1)
+  # i = i +1
+  # pdf(paste("Step5-5-",Cell,"_",Date,".RNA_count.pdf",sep=""),     
+  #     width = 12,        # 5 x 300 pixels
+  #     height = 4,
+  #     pointsize = 10)
+  # do.call("grid.arrange",c(qlist,ncol=3))
+  # dev.off()
+  # 
   ###### ratio
   qlist = list()
   i = 1
@@ -626,116 +625,10 @@ for (Cell in c("iPSC","NPC")){
       legend.text=element_text(size=rel(1)))
   qlist[[i]] <- ggplotGrob(p1)
   i = i +1
-  pdf(paste("Step5-6-",Cell,"_",Date,".log2ratio.pdf",sep=""),     
+  pdf(paste("Figure_S5E-",Cell,"_",Date,".log2ratio.pdf",sep=""),     
       width = 12,        # 5 x 300 pixels
       height = 4,
       pointsize = 10)
   do.call("grid.arrange",c(qlist,ncol=3))
   dev.off()
 }
-
-################ Ratio between iPSC and NPC
-head(iPSC_combined2)
-iPSC_combined2$Ratio_avg = apply(iPSC_combined2[,grepl("ratio",colnames(iPSC_combined2))],1,mean,na.rm=T)
-NPC_combined2$Ratio_avg = apply(NPC_combined2[,grepl("ratio",colnames(NPC_combined2))],1,mean,na.rm=T)
-
-Both_Cells = merge(iPSC_combined2[,c("name","Group","Species","Ratio_avg")],NPC_combined2[,c("name","Ratio_avg")],by="name")
-
-###
-qlist = list()
-i = 1
-head(Both_Cells)
-
-p1 = ggplot(Both_Cells[Both_Cells$Species!="positive" & Both_Cells$Species!="negative",], aes((as.numeric(as.character(Ratio_avg.x))),(as.numeric(as.character(Ratio_avg.y)))))  +
-  geom_point(aes(),size=2,shape=19,alpha=0.3) + 
-  geom_abline(slope=1, intercept=0)+
-  xlab("iPSC ratio")+
-  ylab("NPC ratio")+
-  geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-  stat_poly_eq(formula = my.formula,
-               eq.with.lhs = "italic(hat(y))~`=`~",
-               p.digits = 3,
-               aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-               parse = TRUE,size = 4.5,) +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = rel(1)),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.background = element_blank(), 
-    axis.line = element_line(colour = "black"),
-    axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-    axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-    axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-    axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-    axis.title=element_text(colour="black",size=rel(1.4)),
-    legend.key = element_rect(colour = "transparent", fill = "white"),
-    #legend.position="right",
-    legend.position = "none",
-    legend.background = element_blank(),
-    legend.text=element_text(size=rel(1)))
-qlist[[i]] <- ggplotGrob(p1)
-i = i +1
-p1 = ggplot(Both_Cells[Both_Cells$Species=="positive",],aes(log2(as.numeric(as.character(Ratio_avg.x))),log2(as.numeric(as.character(Ratio_avg.y))))) +
-  geom_point(aes(),size=2,shape=19,alpha=0.3) + 
-  geom_abline(slope=1, intercept=0)+
-  xlab("iPSC ratio")+
-  ylab("NPC ratio")+
-  geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-  stat_poly_eq(formula = my.formula,
-               eq.with.lhs = "italic(hat(y))~`=`~",
-               p.digits = 3,
-               aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-               parse = TRUE,size = 4.5,) +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = rel(1)),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.background = element_blank(), 
-    axis.line = element_line(colour = "black"),
-    axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-    axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-    axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-    axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-    axis.title=element_text(colour="black",size=rel(1.4)),
-    legend.key = element_rect(colour = "transparent", fill = "white"),
-    #legend.position="right",
-    legend.position = "none",
-    legend.background = element_blank(),
-    legend.text=element_text(size=rel(1)))
-qlist[[i]] <- ggplotGrob(p1)
-i = i +1
-p1 = ggplot(Both_Cells[Both_Cells$Species=="negative",], aes(log2(as.numeric(as.character(Ratio_avg.x))),log2(as.numeric(as.character(Ratio_avg.y))))) +
-  geom_point(aes(),size=2,shape=19,alpha=0.3) + 
-  geom_abline(slope=1, intercept=0)+
-  xlab("iPSC ratio")+
-  ylab("NPC ratio")+
-  geom_smooth(method=lm, se=FALSE, fullrange=TRUE,color="black",formula = my.formula)+
-  stat_poly_eq(formula = my.formula,
-               eq.with.lhs = "italic(hat(y))~`=`~",
-               p.digits = 3,
-               aes(label = paste(..rr.label..,stat(p.value.label), sep = "*plain(\",\")~")), 
-               parse = TRUE,size = 4.5,) +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = rel(1)),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.background = element_blank(), 
-    axis.line = element_line(colour = "black"),
-    axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
-    axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-    axis.text=element_text(colour="black",size=rel(1.4),angle = 0),
-    axis.text.x=element_text(colour="black",vjust=.5,angle = 0),
-    axis.title=element_text(colour="black",size=rel(1.4)),
-    legend.key = element_rect(colour = "transparent", fill = "white"),
-    #legend.position="right",
-    legend.position = "none",
-    legend.background = element_blank(),
-    legend.text=element_text(size=rel(1)))
-qlist[[i]] <- ggplotGrob(p1)
-i = i +1
-pdf(paste("Step5-7-iPSCvsNPC_ratio","_",Date,".pdf",sep=""),     
-    width = 15,        # 5 x 300 pixels
-    height = 5,
-    pointsize = 10)
-do.call("grid.arrange",c(qlist,ncol=3))
-dev.off()
