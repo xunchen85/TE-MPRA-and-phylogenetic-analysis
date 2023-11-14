@@ -14,4 +14,8 @@ All Python, R, and shell scripts will be finalized and uploaded asap...
    
    •	2) subdivide all instances (copies) into clusters per subfamily;
 
-   •	3) determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate;
+   •	3) determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate:
+          3.1 we first examined the internal branch lengths of the tree and grouped adjacent clusters based on the top branch lengths (bootstrap values) manually. 
+          3.2 We also examined the heatmap of divergence rates to look at extreme values between every adjacent clusters to validate the phyletic groups. 
+          3.3 We kept the phyletic groups after we confirmed that the clusters from a phyletic group were evolutionary close to each other.
+
