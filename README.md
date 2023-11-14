@@ -7,9 +7,11 @@ Scripts included here are used for the study of "Cryptic endogenous retrovirus s
 All input files are kept under the "inputs/" folder (Zenodo database at DOI: 10.5281/zenodo.10016500).
 
 ## Shell scripts
-1. Run_MPRA_analysis.sh: it includes the command lines and parameters to compute the MPRA activity from the raw FASTQ files using MPRAflow, MPRAnalyze, and R scripts.
+### 1. MPRA analysis
+Run_MPRA_analysis.sh: it includes the command lines and parameters to compute the MPRA activity from the raw FASTQ files using MPRAflow, MPRAnalyze, and R scripts.
 
-2. Run_phylogenetic_analysis.sh: it contains the command lines and parameters to perform the TE phylogenetic analysis based on multiple sequence alignments. This script contains the full steps on how to determine the TE phyletic groups:
+### 2. phylogenetic analysis
+Run_phylogenetic_analysis.sh: it contains the command lines and parameters to perform the TE phylogenetic analysis based on multiple sequence alignments. This script contains the full steps on how to determine the TE phyletic groups:
 
    2.1 obtain the subfamily groups;
    
