@@ -11,11 +11,11 @@ All input files are kept under the "inputs/" folder (Zenodo database at DOI: 10.
 
 2. Run_phylogenetic_analysis.sh: it contains the command lines and parameters to perform the TE phylogenetic analysis based on multiple sequence alignments. This script contains the full steps on how to determine the TE phyletic groups:
 
->•2.1 obtain the subfamily groups;
+   2.1 obtain the subfamily groups;
    
->•2.2 subdivide all instances (copies) into clusters per subfamily;
+   2.2 subdivide all instances (copies) into clusters per subfamily;
 
->•2.3 determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate:
+   2.3 determine phyletic groups among clusters per subfamily group based on constructed rooted trees and liftOver rate:
    
       2.3.1 Select the best root based on statistical tests of every trees and liftOver rate;
    
@@ -43,7 +43,23 @@ These python and perl scripts are used in the shell scripts to prepare the input
    7. Summarize_liftoverIntersect_by_TEFamily.py and Summarize_liftoverIntersect_by_TEFamily_Group.py: summarize the liftOver ratio per subfamily and per phyletic group.
 
 ## R scripts
-1. 
+   1. LTR_subfamily_liftOver_analysis.R: Figure 1A
+   2. Tree_subdivision.R: Figure 1C
+   3. TEwide_phyletic_groups_visualization.R: Figure 1E; Figure 1F
+   4. TEwide_phyletic_groups_summary.R: Figure 1G
+   5. Phylo_regulatory_analysis-1.R: Figure 2A
+   6. Phylo_regulatory_analysis-2.R: Figure 2B; Figure 2C
+   7. TE_RPM_distribution_visualization.R: Figure 3A
+   8. Prepare_summary_tables-plots.R: Figure 3D
+   9. Phylo_regulatory_analysis-2.R: Figure 3E; Figure 3F; Figure S5G
+   10. Motifs_and_activity_phyleticGroups.R: Figure 3G; Figure S5H
+   11. Liftover_analysis.R: Figure 4A
+   12. Macaque_tree_analysis-1.R: Figure 4B
+   13. Macaque_tree_analysis-2.R: Figure 4C
+   14. Macaque_tree_analysis-3.R: Figure 4D; Figure 4E; Figure 4F
+   15. Nucleotide_motif_association_analysis-2.R: Figure 5A; Figure 5B; Figure 5C; Figure S6
+   16. Nucleotide_motif_association_analysis-3.R: Figure 5D; Figure S8A; Figure S8B
+   17. 
 
 
 
