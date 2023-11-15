@@ -27,7 +27,7 @@ library(MPRAnalyze)
 Summary_Table2 = read.csv("input/Summary_Table2_2023_1_5.subfamilyInfo.csv")
 
 ##### designed library
-Annotation = data.frame(read.delim("input/MPRA_combined_final_2021_12_28.tsv",sep="",header=T))
+Annotation = data.frame(read.delim("input/MPRA_combined_final_2022_8_25.tsv",sep="",header=T))
 
 ##### load the retrieved inserts by association analysis
 inserts = read.delim("input/TE_MPRA_i1_assoc_basic_opt_identical5_filtered_coords_to_barcodes.pickle.out.gz",header=F,sep="")
