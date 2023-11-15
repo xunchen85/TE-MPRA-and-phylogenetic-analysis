@@ -105,6 +105,6 @@ These python and perl scripts are used in the shell scripts to prepare the input
    
    •	Figure 3C: manually prepared based on the length of TE consensus sequences and the locations of designed sequence frames
    
-   •	Figure 5E: manually prepared using the multiple sequence alignments of human "hg19_MER11ABC_v2.mafft.prank.best.fas.edited" and macaque "macFas5_MER11ABC_v2.mafft.prank.best.fas.edited" MER11 consensus sequences. Original MER11A/B/C consensus sequences should be excluded
+   •	Figure 5E: manually prepared based on the multiple sequence alignments of human "hg19_MER11ABC_v2.mafft.prank.best.fas.edited" and macaque "macFas5_MER11ABC_v2.mafft.prank.best.fas.edited" MER11 consensus sequences. Original MER11A/B/C consensus sequences were excluded
 
 
