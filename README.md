@@ -10,7 +10,7 @@ All input files are under the "input/", "input_trees" and "input_trees_consensus
 ### MPRA analysis
 1) Run_MPRA_analysis.sh: it includes the command lines and parameters to compute the MPRA activity from the raw FASTQ files using MPRAflow, MPRAnalyze, and R scripts.
 
-### phylogenetic analysis
+### Phylogenetic analysis
 2) Run_phylogenetic_analysis.sh: it contains the command lines and parameters to perform the TE phylogenetic analysis based on multiple sequence alignments. This script contains the full steps on how to determine the TE phyletic groups:
 
 #### 2.1 obtain the subfamily groups;
@@ -45,7 +45,7 @@ These python and perl scripts are used in the shell scripts to prepare the input
    •	Summarize_liftoverIntersect_by_TEFamily.py and Summarize_liftoverIntersect_by_TEFamily_Group.py: summarize the liftOver ratio per subfamily and per phyletic group.
 
 ## R scripts
-### Figure 1
+### Figure 1:
    •	1.LTR_subfamily_liftOver_analysis.R: Figure 1A; Figure 1B; Figure S1A; Figure S3A
    
    •	2.Tree_subdivision.R: Figure 1C; Figure S3C
@@ -54,12 +54,12 @@ These python and perl scripts are used in the shell scripts to prepare the input
    
    •	4.TEwide_phyletic_groups_summary.R: Figure 1G; Figure S11A
 
-### Figure 2
+### Figure 2:
    •	5.Phylo_regulatory_analysis-1.R: Figure 2A
    
    •	6.Phylo_regulatory_analysis-2.R: Figure 2B; Figure 2C; Figure 3F-annotation; Figure S5G
      
-### Figure 3
+### Figure 3:
    •	7.TE_RPM_distribution_visualization.R: Figure 3A; Figure S5A
    
    •	8.Prepare_summary_tables-plots.R: Figure 3D; Figure S5C; Figure S5D
@@ -70,7 +70,7 @@ These python and perl scripts are used in the shell scripts to prepare the input
    
    •	10.Motifs_and_activity_phyleticGroups.R: Figure 3G; Figure S5H; Figure S10A
 
-### Figure 4
+### Figure 4:
    •	11.Liftover_analysis.R: Figure 4A; Figure S9A
    
    •	12.Macaque_tree_analysis-1.R: Figure 4B
@@ -79,17 +79,17 @@ These python and perl scripts are used in the shell scripts to prepare the input
    
    •	14.Macaque_tree_analysis-3.R: Figure 4D; Figure 4E; Figure 4F
 
-### Figure 5
+### Figure 5:
    •	15.Nucleotide_motif_association_analysis-2.R: Figure 5A; Figure 5B; Figure 5C; Figure S6; Figure S7
    
    •	16.Nucleotide_motif_association_analysis-3.R: Figure 5D; Figure S8A; Figure S8B
    
    •	10.Motifs_and_activity_phyleticGroups.R: Figure 5F
 
-### Figure 6
+### Figure 6:
    •	17.TE-wide_epigenetic_analysis.R: Figure 6A; Figure 6B; Figure 6C; Figure 6D; Figure S11C; Figure S11D
 
-### Others
+### Others:
    •	18.MPRA_activity_summary-final.R: Figure S5E; Figure S5F
    
    •	19.MPRAnalyze.R: run MPRAnalyze
