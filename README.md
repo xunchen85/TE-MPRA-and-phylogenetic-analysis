@@ -46,48 +46,48 @@ These python and perl scripts are used in the shell scripts to prepare the input
 
 ## R scripts
 ### Figure 1
-   •	1.LTR_subfamily_liftOver_analysis.R: Figure 1A; Figure 1B; Figure S3A
+   •	1.LTR_subfamily_liftOver_analysis.R: Figure 1A; Figure 1B; Figure S1A; Figure S3A
    
-   •	2.Tree_subdivision.R: Figure 1C
+   •	2.Tree_subdivision.R: Figure 1C; Figure S3C
    
-   •	3.TEwide_phyletic_groups_visualization.R: Figure 1E; Figure 1F
+   •	3.TEwide_phyletic_groups_visualization.R: Figure 1E; Figure 1F; Figure S11C
    
-   •	4.TEwide_phyletic_groups_summary.R: Figure 1G
+   •	4.TEwide_phyletic_groups_summary.R: Figure 1G; Figure S11A
 
 ### Figure 2
    •	5.Phylo_regulatory_analysis-1.R: Figure 2A
    
-   •	6.Phylo_regulatory_analysis-2.R: Figure 2B; Figure 2C
+   •	6.Phylo_regulatory_analysis-2.R: Figure 2B; Figure 2C; Figure 3F-annotation; Figure S5G
      
 ### Figure 3
-   •	7.TE_RPM_distribution_visualization.R: Figure 3A
+   •	7.TE_RPM_distribution_visualization.R: Figure 3A; Figure S5A
    
-   •	8.Prepare_summary_tables-plots.R: Figure 3D
+   •	8.Prepare_summary_tables-plots.R: Figure 3D; Figure S5C; Figure S5D
    
    •	6.Phylo_regulatory_analysis-2.R: Figure 3E; Figure 3F-annotation; Figure S5G
    
    •	9.Nucleotide_motif_association_analysis-4.R: Figure 3F; Figure S8C
    
-   •	10.Motifs_and_activity_phyleticGroups.R: Figure 3G; Figure S5H
+   •	10.Motifs_and_activity_phyleticGroups.R: Figure 3G; Figure S5H; Figure S10A
 
 ### Figure 4
-   •	11.Liftover_analysis.R: Figure 4A
+   •	11.Liftover_analysis.R: Figure 4A; Figure S9A
    
    •	12.Macaque_tree_analysis-1.R: Figure 4B
    
-   •	13.Macaque_tree_analysis-2.R: Figure 4C
+   •	13.Macaque_tree_analysis-2.R: Figure 4C; Figure S9B; Figure S9C
    
    •	14.Macaque_tree_analysis-3.R: Figure 4D; Figure 4E; Figure 4F
 
 ### Figure 5
-   •	15.Nucleotide_motif_association_analysis-2.R: Figure 5A; Figure 5B; Figure 5C; Figure S6
+   •	15.Nucleotide_motif_association_analysis-2.R: Figure 5A; Figure 5B; Figure 5C; Figure S6; Figure S7
    
    •	16.Nucleotide_motif_association_analysis-3.R: Figure 5D; Figure S8A; Figure S8B
    
    •	10.Motifs_and_activity_phyleticGroups.R: Figure 5F
 
 ### Figure 6
-   •	17.TE-wide_epigenetic_analysis.R: Figure 6A; Figure 6B; Figure 6C; Figure 6D
+   •	17.TE-wide_epigenetic_analysis.R: Figure 6A; Figure 6B; Figure 6C; Figure 6D; Figure S11C; Figure S11D
 
 ### Others
    •	18.MPRA_activity_summary-final.R: Figure S5E; Figure S5F
